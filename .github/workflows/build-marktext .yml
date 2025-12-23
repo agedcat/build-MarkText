@@ -73,11 +73,20 @@ jobs:
           node-version: '18'  # 替换为MarkText项目要求的Node版本
           cache: 'yarn'       # 缓存yarn依赖，加速构建
 
+      - name: Install Visual Studio 2022 Build Tools (C++ Components)
+        run: |
+          # 使用choco安装VS Build Tools，指定安装C++核心组件
+          choco install visualstudio2022buildtools -y --no-progress `
+            --package-parameters "--add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --includeOptional --passive --norestart"
+        shell: pwsh
+        env:
+          CHOCO_NO_PROGRESS: 'true'  # 禁用choco的进度条，加速输出
+
       # 关键步骤2：安装Windows C++构建工具链（解决node-gyp依赖）
-      - name: Install Visual Studio Build Tools
-        uses: ilammy/msvc-dev-cmd@v1  # 自动配置MSVC编译环境
+      - name: Configure MSVC Developer Environment
+        uses: ilammy/msvc-dev-cmd@v1
         with:
-          arch: 'x64'
+          arch: 'x64'  # 指定64位架构
 
       # 可选：如果上述步骤不够，可通过choco安装python（node-gyp也依赖python）
       - name: Install Python (if needed)
