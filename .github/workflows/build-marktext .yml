@@ -66,6 +66,27 @@ jobs:
           node-gyp install
         shell: pwsh
 
+      # 关键步骤1：安装Node.js（指定项目所需版本，比如16/18）
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'  # 替换为MarkText项目要求的Node版本
+          cache: 'yarn'       # 缓存yarn依赖，加速构建
+
+      # 关键步骤2：安装Windows C++构建工具链（解决node-gyp依赖）
+      - name: Install Visual Studio Build Tools
+        uses: ilammy/msvc-dev-cmd@v1  # 自动配置MSVC编译环境
+        with:
+          # 安装C++ Build Tools的核心组件，对应Visual Studio 2022
+          toolset: '14.39'
+          arch: 'x64'
+
+      # 可选：如果上述步骤不够，可通过choco安装python（node-gyp也依赖python）
+      - name: Install Python (if needed)
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'  # node-gyp推荐的Python版本
+          
       - name: Install dependencies
         run: yarn install --check-files --frozen-lockfile
         
