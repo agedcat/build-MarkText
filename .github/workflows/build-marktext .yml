@@ -70,7 +70,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'  # 替换为MarkText项目要求的Node版本
+          node-version: '16'  # 替换为MarkText项目要求的Node版本
           cache: 'yarn'       # 缓存yarn依赖，加速构建
 
       - name: Install Visual Studio 2022 Build Tools (C++ Components)
@@ -98,7 +98,7 @@ jobs:
         run: yarn install --check-files --frozen-lockfile
         
       - name: Build
-        run: yarn run build:bin
+        run: yarn run release:win
         
       - name: Archive production artifacts
         uses: actions/upload-artifact@v4
