@@ -77,8 +77,6 @@ jobs:
       - name: Install Visual Studio Build Tools
         uses: ilammy/msvc-dev-cmd@v1  # 自动配置MSVC编译环境
         with:
-          # 安装C++ Build Tools的核心组件，对应Visual Studio 2022
-          toolset: '14.39'
           arch: 'x64'
 
       # 可选：如果上述步骤不够，可通过choco安装python（node-gyp也依赖python）
