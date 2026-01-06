@@ -144,6 +144,9 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4  # GitHub官方的检出代码动作
+        
       - name: 🚗 Keep Running
         if: github.event_name == 'schedule'
         run: |
